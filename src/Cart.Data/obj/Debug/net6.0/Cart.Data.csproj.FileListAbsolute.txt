@@ -1,0 +1,17 @@
+C:\projetos\struturaMVC\MVC\src\Cart.Data\obj\Debug\net6.0\Cart.Data.csproj.AssemblyReference.cache
+C:\projetos\struturaMVC\MVC\src\Cart.Data\obj\Debug\net6.0\Cart.Data.GeneratedMSBuildEditorConfig.editorconfig
+C:\projetos\struturaMVC\MVC\src\Cart.Data\obj\Debug\net6.0\Cart.Data.AssemblyInfoInputs.cache
+C:\projetos\struturaMVC\MVC\src\Cart.Data\obj\Debug\net6.0\Cart.Data.AssemblyInfo.cs
+C:\projetos\struturaMVC\MVC\src\Cart.Data\obj\Debug\net6.0\Cart.Data.csproj.CoreCompileInputs.cache
+C:\projetos\struturaMVC\MVC\src\Cart.Data\bin\Debug\net6.0\Cart.Data.deps.json
+C:\projetos\struturaMVC\MVC\src\Cart.Data\bin\Debug\net6.0\Cart.Data.runtimeconfig.json
+C:\projetos\struturaMVC\MVC\src\Cart.Data\bin\Debug\net6.0\Cart.Data.dll
+C:\projetos\struturaMVC\MVC\src\Cart.Data\bin\Debug\net6.0\Cart.Data.pdb
+C:\projetos\struturaMVC\MVC\src\Cart.Data\bin\Debug\net6.0\Cart.Business.dll
+C:\projetos\struturaMVC\MVC\src\Cart.Data\bin\Debug\net6.0\Cart.Business.pdb
+C:\projetos\struturaMVC\MVC\src\Cart.Data\obj\Debug\net6.0\Cart.Data.csproj.CopyComplete
+C:\projetos\struturaMVC\MVC\src\Cart.Data\obj\Debug\net6.0\Cart.Data.dll
+C:\projetos\struturaMVC\MVC\src\Cart.Data\obj\Debug\net6.0\refint\Cart.Data.dll
+C:\projetos\struturaMVC\MVC\src\Cart.Data\obj\Debug\net6.0\Cart.Data.pdb
+C:\projetos\struturaMVC\MVC\src\Cart.Data\obj\Debug\net6.0\Cart.Data.genruntimeconfig.cache
+C:\projetos\struturaMVC\MVC\src\Cart.Data\obj\Debug\net6.0\ref\Cart.Data.dll

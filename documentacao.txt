@@ -1,0 +1,34 @@
+dotnet --info
+
+#intando o dotnet-ef
+dotnet tool install --global dotnet-ef
+
+
+#EntityFrameworkCore
+Install-Package Microsoft.EntityFrameworkCore -Version 6.0.8
+Install-Package Microsoft.EntityFrameworkCore.Design -Version 6.0.8
+
+#fluent API
+install-Package Microsoft.EntityFrameworkCore.Relational
+
+#conexao mysql
+Install-Package Pomelo.EntityFrameworkCore.MySql -Version 6.0.2
+
+#criando migration
+Add-Migration Initial -Context CartDbContext
+dotnet ef migrations add Initial -Context CartDbContext
+dotnet ef -s ../Cart.App migrations add Initial
+dotnet ef -s ../Cart.App migrations script -o sql.txt
+dotnet ef -s ../Cart.App database update
+
+upload de imagem na API não precisa
+Install-Package Microsoft.AspNetCore.Http;
+dotnet add package Microsoft.AspNetCore.Http;
+
+instalar o automapper
+Install-Package AutoMapper.Extensions.Microsoft.DependencyInjection
+dotnet add package AutoMapper.Extensions.Microsoft.DependencyInjection
+
+instalar validation
+Install-Package FluentValidation
+

@@ -1,0 +1,12 @@
+C:\projetos\struturaMVC\MVC\src\Cart.Business\bin\Debug\net6.0\Cart.Business.deps.json
+C:\projetos\struturaMVC\MVC\src\Cart.Business\bin\Debug\net6.0\Cart.Business.dll
+C:\projetos\struturaMVC\MVC\src\Cart.Business\bin\Debug\net6.0\Cart.Business.pdb
+C:\projetos\struturaMVC\MVC\src\Cart.Business\obj\Debug\net6.0\Cart.Business.csproj.AssemblyReference.cache
+C:\projetos\struturaMVC\MVC\src\Cart.Business\obj\Debug\net6.0\Cart.Business.GeneratedMSBuildEditorConfig.editorconfig
+C:\projetos\struturaMVC\MVC\src\Cart.Business\obj\Debug\net6.0\Cart.Business.AssemblyInfoInputs.cache
+C:\projetos\struturaMVC\MVC\src\Cart.Business\obj\Debug\net6.0\Cart.Business.AssemblyInfo.cs
+C:\projetos\struturaMVC\MVC\src\Cart.Business\obj\Debug\net6.0\Cart.Business.csproj.CoreCompileInputs.cache
+C:\projetos\struturaMVC\MVC\src\Cart.Business\obj\Debug\net6.0\Cart.Business.dll
+C:\projetos\struturaMVC\MVC\src\Cart.Business\obj\Debug\net6.0\refint\Cart.Business.dll
+C:\projetos\struturaMVC\MVC\src\Cart.Business\obj\Debug\net6.0\Cart.Business.pdb
+C:\projetos\struturaMVC\MVC\src\Cart.Business\obj\Debug\net6.0\ref\Cart.Business.dll

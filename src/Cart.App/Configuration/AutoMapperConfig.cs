@@ -10,7 +10,11 @@ namespace Cart.App.Configuration
         {
             CreateMap<Supplier, SupplierDTO>().ReverseMap();
             CreateMap<Address, AddressDTO>().ReverseMap();  
-            CreateMap<Product, ProductDTO>().ReverseMap();
+            
+            CreateMap<ProductInputDTO, Product>();
+            CreateMap<Product, ProductViewDTO>()
+                .ForMember(p => p.SupplierId, options => options.MapFrom(p=>p.Supplier.Id))
+                .ForMember(p=>p.NameSupplier, opt=>opt.MapFrom(p=>p.Supplier.Name));
         }
     }
 }

@@ -25,14 +25,14 @@ namespace Cart.App.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ProductDTO>>> GetAll()
+        public async Task<ActionResult<IEnumerable<ProductViewDTO>>> GetAll()
         {
-            return CustomResult(_mapper.Map<IEnumerable<ProductDTO>>(await _productRepository.GetProductsSuppliers()));
+            return CustomResult(_mapper.Map<IEnumerable<ProductViewDTO>>(await _productRepository.GetProductsSuppliers()));
         }
 
         [HttpGet("{id:guid}")]
 
-        public async Task<ActionResult<ProductDTO>> GetById(Guid id)
+        public async Task<ActionResult<ProductViewDTO>> GetById(Guid id)
         {
             var product = await GetProdutById(id);
 
@@ -42,9 +42,9 @@ namespace Cart.App.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<ProductDTO>> Add(ProductDTO productDTO)
+        public async Task<ActionResult<ProductViewDTO>> Add(ProductInputDTO productDTO)
         {
-            if (!ModelState.IsValid) CustomResult(ModelState);
+            if (!ModelState.IsValid) return CustomResult(ModelState);
 
             var imagemName = Guid.NewGuid() + "_" + productDTO.Image;
 
@@ -57,7 +57,7 @@ namespace Cart.App.Controllers
         }
 
         [HttpDelete("{id:guid}")]
-        public async Task<ActionResult<ProductDTO>> Delete(Guid id)
+        public async Task<ActionResult<ProductViewDTO>> Delete(Guid id)
         {
             var product = GetProdutById(id);
             
@@ -69,9 +69,9 @@ namespace Cart.App.Controllers
         }
 
 
-        private async Task<ProductDTO> GetProdutById(Guid id)
+        private async Task<ProductViewDTO> GetProdutById(Guid id)
         {
-            return _mapper.Map<ProductDTO>(await _productRepository.GetProductSupplierById(id));
+            return _mapper.Map<ProductViewDTO>(await _productRepository.GetProductSupplierById(id));
         }
 
         private bool UploadFile(string file, string imageName)

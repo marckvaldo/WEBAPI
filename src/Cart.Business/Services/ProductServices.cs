@@ -18,9 +18,17 @@ namespace Cart.Business.Services
             _productRepository = ProductRepository;
         }
 
-        public Task Add(Product produtc)
+        public async Task Add(Product produtc)
         {
-            throw new NotImplementedException();
+
+            if (_productRepository.Filter(p=>p.Name == produtc.Name).Result.Any())
+            {
+                Notify("Ja existe produto cadastrado com esse titulo");
+                return;
+            }
+
+            await _productRepository.Add(produtc);
+            return;
         }
 
         public Task Delete(Guid id)

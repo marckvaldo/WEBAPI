@@ -17,5 +17,6 @@ namespace Cart.Business.Models
         /* EF Relations */
         public IEnumerable<Product>? Products { get; set; }
         public Address Address { get; set; }
+
     }
 }

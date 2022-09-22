@@ -29,7 +29,7 @@ namespace Cart.App.DTO
         public bool Enable { get; set; }
 
         /* EF Relations */
-        public IEnumerable<ProductDTO>? Products { get; set; }
+        public IEnumerable<ProductViewDTO>? Products { get; set; }
 
         [Required(ErrorMessage = "Address não informado")]
         public AddressDTO? Address { get; set; }

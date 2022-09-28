@@ -6,6 +6,7 @@ namespace Cart.App.DTO
 {
     public class ProductInputDTO
     {
+
         [Key]
         public Guid Id { get; set; }
 
@@ -22,9 +23,9 @@ namespace Cart.App.DTO
         [StringLength(100, ErrorMessage = "Campo {0} precisa ter entre {2} e {1} caracteres", MinimumLength = 1)]
         public string Description { get; set; }
 
-        public string ImageUpload { get; set; }
+        public string? ImageUpload { get; set; }
 
-        public string Image { get; set; }
+        public string? Image { get; set; }
 
         [DisplayName("Preco")]
         [Required(ErrorMessage = "Campo {0} é obrigatório")]

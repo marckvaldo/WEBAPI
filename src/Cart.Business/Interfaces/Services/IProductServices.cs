@@ -9,9 +9,10 @@ namespace Cart.Business.Interfaces.Services
 {
     public interface IProductServices
     {
-        Task Add(Product produtc);
+        Task Add(Product product);
         Task Delete(Guid id);
-        Task update(Product produtc);
-        Task updateAddress(Product produtc);
+        Task Update(Product product);
+
+        Task AddImageProduct(Product product);  
     }
 }

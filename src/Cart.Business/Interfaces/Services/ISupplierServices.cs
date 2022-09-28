@@ -11,7 +11,7 @@ namespace Cart.Business.interfaces.Services
     {
         Task Add(Supplier supplier);
         Task Delete(Guid id);
-        Task update(Supplier supplier);
-        Task updateAddress(Address address);    
+        Task Update(Supplier supplier);
+        Task UpdateAddress(Address address);    
     }
 }

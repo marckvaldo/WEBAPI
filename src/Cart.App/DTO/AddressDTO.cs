@@ -1,4 +1,5 @@
-﻿using Cart.Business.Models;
+﻿using Cart.Business.Helps;
+using Cart.Business.Models;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
@@ -6,6 +7,14 @@ namespace Cart.App.DTO
 {
     public class AddressDTO
     {
+        public AddressDTO(string Estado)
+        {
+            if(Estado.Length > 2)
+                this.Estado = UFvsEstados.EstadoToUF(Estado);
+            else 
+                this.Estado = UFvsEstados.UFtoEstado(Estado);
+        }
+
         [Key]
         public Guid Id { get; set; }
         public Guid SupplierId { get; set; }
@@ -38,9 +47,7 @@ namespace Cart.App.DTO
 
         [Required(ErrorMessage = "Campo {0} é obrigatório")]
         [StringLength(50, ErrorMessage = "Campo {0} precisa ter entre {2} e {1} caracteres", MinimumLength = 1)]
-        public string Estado { get; set; }
+        public string Estado { get; private set; }
 
-        /* EF Relations */
-        //public SupplierDTO? Supplier { get; set; }
     }
 }

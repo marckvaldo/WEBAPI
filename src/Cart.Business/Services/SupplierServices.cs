@@ -49,7 +49,7 @@ namespace Cart.Data.Services
             await _supplierRepository.DeleteById(id);
         }
 
-        public async Task update(Supplier supplier)
+        public async Task Update(Supplier supplier)
         {
             if (!RunValidation(new SupplierValidation(), supplier)) return;
 
@@ -62,7 +62,7 @@ namespace Cart.Data.Services
             await _supplierRepository.Update(supplier);
         }
 
-        public Task updateAddress(Address address)
+        public Task UpdateAddress(Address address)
         {
             throw new NotImplementedException();
         }

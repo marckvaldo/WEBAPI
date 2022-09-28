@@ -65,7 +65,7 @@ namespace Cart.App.Controllers
 
             if (!ModelState.IsValid) return CustomResult(ModelState);
 
-            await _supplierServices.update(_mapper.Map<Supplier>(supplierDTO));
+            await _supplierServices.Update(_mapper.Map<Supplier>(supplierDTO));
 
             return CustomResult(supplierDTO);    
         }
@@ -83,6 +83,7 @@ namespace Cart.App.Controllers
         }
 
 
+        /* privates */
         private async Task<SupplierDTO> GetSupplierProductsAddressById(Guid Id)
         {
             return _mapper.Map<SupplierDTO>(await _supplierRepository.GetSupplierProductsAddress(Id));

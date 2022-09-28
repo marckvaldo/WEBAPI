@@ -13,7 +13,8 @@ namespace Cart.App.Controllers
     {
         private readonly IProductServices _productServices;
         private readonly IProductRepository _productRepository;
-        private readonly IMapper _mapper;   
+        private readonly IMapper _mapper;  
+        
         public ProductController(IProductServices ProductServices, 
             IProductRepository ProductRepository, 
             IMapper Mapper, 
@@ -31,7 +32,6 @@ namespace Cart.App.Controllers
         }
 
         [HttpGet("{id:guid}")]
-
         public async Task<ActionResult<ProductViewDTO>> GetById(Guid id)
         {
             var product = await GetProdutById(id);
@@ -56,6 +56,54 @@ namespace Cart.App.Controllers
             return CustomResult(productDTO);  
         }
 
+        [HttpPost("AddImageProduct")]
+        public async Task<ActionResult> AddImageProduct(ImageProductDTO imageProductDTO)
+        {
+            if (ModelState.IsValid) return CustomResult(ModelState);
+
+            var imageName = Guid.NewGuid() + "_" + imageProductDTO.Image.FileName;
+
+            if (!await UploadFileIFormeFile(imageProductDTO.Image, imageName)) return CustomResult(ModelState);
+
+            await _productServices.AddImageProduct(_mapper.Map<Product>(imageProductDTO));
+
+            return CustomResult(imageProductDTO);
+           
+        }
+
+        [HttpPut("{id:guid}")]
+        public async Task<ActionResult<ProductViewDTO>> Update(Guid id, ProductInputDTO productDTO)
+        {
+            if (id != productDTO.Id)
+            {
+                Notify("Id do parametro não é igual ao id do bad request");
+                return CustomResult();
+            }
+
+            var productModel = await GetProdutById(id);
+            productDTO.Image = productDTO.Id.ToString() + "_" + productDTO.Image;
+
+            if (!string.IsNullOrEmpty(productModel.Image))
+                productDTO.Image = productModel.Image;
+                
+
+            if (!ModelState.IsValid) return CustomResult(ModelState);
+
+            if (productDTO.ImageUpload != null)
+            {              
+                if (!await DeleteImage(productDTO.Image))
+                {
+                    Notify("Erro ao exluir image");
+                    return CustomResult();
+                }
+                if (!UploadFile(productDTO.ImageUpload, productDTO.Image)) return CustomResult(ModelState);
+            }
+
+            productDTO.DateCreate = productModel.DateCreate;
+            await _productServices.Update(_mapper.Map<Product>(productDTO));
+            return CustomResult(productDTO);
+        }
+
         [HttpDelete("{id:guid}")]
         public async Task<ActionResult<ProductViewDTO>> Delete(Guid id)
         {
@@ -69,6 +117,7 @@ namespace Cart.App.Controllers
         }
 
 
+        /* privates */
         private async Task<ProductViewDTO> GetProdutById(Guid id)
         {
             return _mapper.Map<ProductViewDTO>(await _productRepository.GetProductSupplierById(id));
@@ -95,6 +144,42 @@ namespace Cart.App.Controllers
             }
 
             System.IO.File.WriteAllBytes(filePath, ImageDataByteArray); //build o file
+            return true;
+        }
+
+        private async Task<bool> DeleteImage(string imageName)
+        {
+            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/imagens", imageName);
+
+            if (System.IO.File.Exists(filePath)) System.IO.File.Delete(filePath);
+
+            return true;
+        }
+
+        private async Task<bool> UploadFileIFormeFile(IFormFile file, string imageName)
+        {
+           
+            if (file == null || string.IsNullOrEmpty(imageName))
+            {
+                //ModelState.AddModelError(string.Empty, "Forneça uma imagem para este produto!");
+                Notify("Forneça uma imagem para este produto!");
+                return false;
+            }
+
+            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/imagens", imageName+file.FileName); // monta o path 
+
+            if (System.IO.File.Exists(filePath))
+            {
+                //ModelState.AddModelError(string.Empty, "Ja existe um arquivo com este nome");
+                Notify("Ja existe um arquivo com este nome");
+                return false;
+            }
+
+            using(var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await file.CopyToAsync(stream); 
+            }
+
             return true;
         }
     }

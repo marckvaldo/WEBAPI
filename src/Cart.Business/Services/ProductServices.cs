@@ -2,6 +2,7 @@
 using Cart.Business.Interfaces;
 using Cart.Business.Interfaces.Services;
 using Cart.Business.Models;
+using Cart.Business.Validations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,32 +19,53 @@ namespace Cart.Business.Services
             _productRepository = ProductRepository;
         }
 
-        public async Task Add(Product produtc)
+        public async Task Add(Product product)
         {
+            if (!RunValidation(new ProductValidation(), product)) return;    
 
-            if (_productRepository.Filter(p=>p.Name == produtc.Name).Result.Any())
+            if (_productRepository.Filter(p=>p.Name == product.Name).Result.Any())
             {
                 Notify("Ja existe produto cadastrado com esse titulo");
                 return;
             }
 
-            await _productRepository.Add(produtc);
+            product.DateCreate = DateTime.Now.Date;
+            await _productRepository.Add(product);
             return;
         }
 
-        public Task Delete(Guid id)
+        public async Task Delete(Guid id)
         {
-            throw new NotImplementedException();
+            if(id == Guid.Empty)
+            {
+                Notify("Id não pode ser vazio!");
+                return;
+            }
+
+            await _productRepository.DeleteById(id);
+            return;
         }
 
-        public Task update(Product produtc)
+        public async Task Update(Product product)
         {
-            throw new NotImplementedException();
+            if (!RunValidation(new ProductValidation(), product)) return;
+
+            if(_productRepository.Filter(p=>p.Name == product.Name && p.Id != product.Id).Result.Any())
+            {
+                Notify("Ja existe outro produto com essa descrição");
+                return;
+            }
+
+            await _productRepository.Update(product);
+            return;
         }
 
-        public Task updateAddress(Product produtc)
+        public async Task AddImageProduct(Product productImage)
         {
-            throw new NotImplementedException();
+            var produto = await _productRepository.GetById(productImage.Id);
+            produto.Image = productImage.Image;
+            await _productRepository.Update(produto);
+            return;
         }
     }
 }

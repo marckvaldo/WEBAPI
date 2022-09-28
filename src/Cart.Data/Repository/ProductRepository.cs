@@ -30,8 +30,8 @@ namespace Cart.Data.Repository
 
         public async Task<IEnumerable<Product>> GetProductsBySuppliers(Guid supplierId)
         {
-            //return await _Db.Products.AsNoTracking().Include(s => s.Supplier).Where(s => s.SupplierId == supplierId).ToListAsync();
             return await Filter(p => p.SupplierId == supplierId);
         }
+
     }
 }

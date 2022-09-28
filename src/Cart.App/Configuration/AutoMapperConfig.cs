@@ -15,6 +15,11 @@ namespace Cart.App.Configuration
             CreateMap<Product, ProductViewDTO>()
                 .ForMember(p => p.SupplierId, options => options.MapFrom(p=>p.Supplier.Id))
                 .ForMember(p=>p.NameSupplier, opt=>opt.MapFrom(p=>p.Supplier.Name));
+
+            CreateMap<ImageProductDTO, Product>().ReverseMap()
+                .ForMember(p => p.IdProduct, opt => opt.MapFrom(p => p.Id))
+                .ForMember(p => p.Image, opt => opt.MapFrom(p => p.Image));
+
         }
     }
 }

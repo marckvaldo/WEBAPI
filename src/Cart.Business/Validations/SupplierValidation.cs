@@ -2,6 +2,8 @@
 using Cart.Business.Models;
 using Cart.Business.Validations.BaseValidation;
 using Cart.Business.Validations.BaseValidation.Interfaces;
+using Cart.Business.Validations.Rules;
+using FluentValidation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,34 +12,46 @@ using System.Threading.Tasks;
 
 namespace Cart.Business.Validations
 {
-    public class SupplierValidation: ValidationBase, IValidationBase<Supplier>
+    public class SupplierValidation: AbstractValidator<Supplier> //ValidationBase, IValidationBase<Supplier>
     {
-        public ReturnValidation IsValid(Supplier Supplier)
+        public SupplierValidation()
         {
-            Rules<string>(Supplier.Name, nameof(Supplier.Name))
-                .NotEmpty(":field não pode ser Vazio!")
-                .Length(5, 50, ":field precisa ter entre :min e :max");
+            RuleFor(f => f.Name)
+                 .NotEmpty()
+                 .WithMessage("O campo {PropertyName} não pode ser vazio!")
+                 .Length(5, 50)
+                 .WithMessage("O Campo {PropertyName} precisa ter entre {MinLength} e {MaxLength} caracteres");
 
-            Rules<string>(Supplier.Document, nameof(Supplier.Document))
-                .NotEmpty(":field não pode ser Vazio!")
-                .Length(5, 50, ":field precisa ter entre :min e :max");
+            RuleFor(f=>f.Document)
+                .NotEmpty()
+                .WithMessage("O campo {PropertyName} não pode ser vazio!")
+                .Length(5, 16)
+                .WithMessage("O Campo {PropertyName} precisa ter entre {MinLength} e {MaxLength} caracteres");
 
 
-            WhenEqual(Supplier.KindSupplier == KindSupplier.Fisica, () =>
+            When(f=>f.KindSupplier == KindSupplier.Fisica, () =>
             {
-                Rules<int>(Supplier.Document.Length, nameof(Supplier.Document))
-                    .Equal<int>(11, "Campo precisa ter :equal caracteres e foi fornecido :length");
+                RuleFor(f => f.Document.Length)
+                .Equal(RuleCPF.length)
+                .WithMessage("Campo Documento precisa ter {ComparisonValue} caracteres e foi fornecido {PropertyValue}.");
+
+                RuleFor(f => RuleCPF.CPFIsValid(f.Document))
+                .Equal(true)
+                .WithMessage("Documento invalido");
+
             });
 
-            WhenEqual(Supplier.KindSupplier == KindSupplier.Juridica, () =>
+            When(f => f.KindSupplier == KindSupplier.Juridica, () =>
             {
-                Rules<int>(Supplier.Document.Length, nameof(Supplier.Document))
-                    .Equal<int>(16, "Campo precisa ter :equal caracteres e foi fornecido :length");
+                RuleFor(f => f.Document.Length)
+                .Equal(16)
+                .WithMessage("Campo Documento precisa ter {ComparisonValue} caracteres e foi fornecido {PropertyValue}.");
+
+                RuleFor(f => RuleCNPJ.CNPJIsValid(f.Document))
+                .Equal(true)
+                .WithMessage("Documento invalido");
+
             });
-
-
-            return IsValidBase();
-        }
-
+        }       
     }
 }

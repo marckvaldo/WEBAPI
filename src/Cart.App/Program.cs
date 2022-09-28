@@ -1,12 +1,8 @@
 using Cart.App.Configuration;
-using Cart.Business.interfaces;
-using Cart.Business.Models;
 using Cart.Data.Context;
-using Cart.Data.Repository;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
-using System.Text.Json.Serialization;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,24 +13,27 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-
+//conexao mysql
 string stringConexao = builder.Configuration.GetConnectionString("conexaoMySql");
 builder.Services.AddDbContext<CartDbContext>(options =>
-    {
-        options.UseMySql(stringConexao, ServerVersion.AutoDetect(stringConexao));
-    });
-
-builder.Services.AddAutoMapper(typeof(AutoMapperConfig));
-
-builder.Services.Configure<ApiBehaviorOptions>(options =>
 {
-    options.SuppressModelStateInvalidFilter = true; //desativa a validação por mode stats
+    options.UseMySql(stringConexao, ServerVersion.AutoDetect(stringConexao));
 });
 
-builder.Services.ResolveDependencyConfig();
+//Identity
+builder.Services.addIdentity(builder.Configuration);
 
-//builder.Services.AddControllers().AddJsonOptions(x =>
-//                x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
+//autoMap
+builder.Services.AddAutoMapper(typeof(AutoMapperConfig));
+
+//desativa a validação por mode stats para o customer result 
+builder.Services.Configure<ApiBehaviorOptions>(options =>
+{
+    options.SuppressModelStateInvalidFilter = true; 
+});
+
+//Injeção de dependecy
+builder.Services.ResolveDependencyConfig();
 
 
 var app = builder.Build();
@@ -47,9 +46,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
-
 app.MapControllers();
-
 app.Run();

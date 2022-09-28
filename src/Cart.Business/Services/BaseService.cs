@@ -1,12 +1,9 @@
 ﻿using Cart.Business.interfaces.Notifications;
+using Cart.Business.Models;
 using Cart.Business.Notifications;
-using Cart.Business.Validations.BaseValidation;
-using Cart.Business.Validations.BaseValidation.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using FluentValidation;
+using FluentValidation.Results;
+
 
 namespace Cart.Business.Services
 {
@@ -18,11 +15,11 @@ namespace Cart.Business.Services
             _notifier = Notifier;
         }
 
-        protected void BuildNotify(ReturnValidation returnValidation)
+        protected void BuildNotify(ValidationResult returnValidation)
         {
-            foreach(var error in returnValidation.GetMessageErros)
+            foreach(var error in returnValidation.Errors)
             {
-                Notify(error.Message);
+                Notify(error.ErrorMessage);
             }
         }
         protected void Notify(string message)
@@ -30,9 +27,9 @@ namespace Cart.Business.Services
             _notifier.Handle(new Notification(message));
         }
 
-        protected bool RunValidation<TM>(IValidationBase<TM> validation, TM entity) 
+        protected bool RunValidation<TV, TM>( TV validation, TM entity) where TV : AbstractValidator<TM> where TM : Entity
         {
-            var resultValidation =  validation.IsValid(entity);
+            var resultValidation =  validation.Validate(entity);
             if (resultValidation.IsValid) return true;
 
             BuildNotify(resultValidation);
